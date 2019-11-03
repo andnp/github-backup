@@ -14,7 +14,6 @@ const config = getConfig();
 
 const schedule = buildScheduler({
     time: "01:30",
-    debug: true,
 });
 
 async function exists(path: string) {
