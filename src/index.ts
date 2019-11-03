@@ -34,7 +34,7 @@ schedule(async () => {
         attempt(async () => {
             if (!repo.permissions.pull) return;
 
-            const path = expandHome(`~/tmp/backups/${repo.full_name}`);
+            const path = expandHome(`${configData.backup_dir}/${repo.full_name}`);
 
             if (await exists(path)) {
                 console.log('pulling ' + repo.full_name);

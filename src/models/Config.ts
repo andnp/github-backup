@@ -4,6 +4,7 @@ import { WatchedConfig } from '../utils/WatchedConfig';
 
 const configSchema = v.object({
     auth_token: v.string(),
+    backup_dir: v.string(),
 });
 
 export const getConfig = _.once(() => {
