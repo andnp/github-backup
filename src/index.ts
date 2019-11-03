@@ -31,16 +31,19 @@ schedule(async () => {
     const repos = await request.get('https://api.github.com/user/repos?per_page=200', v.array(repoSchema), auth);
 
     await promise.map(repos, async (repo) => {
-        if (!repo.permissions.pull) return;
+        attempt(async () => {
+            if (!repo.permissions.pull) return;
 
-        const path = expandHome(`~/tmp/backups/${repo.name}`);
-        if (await exists(path)) {
-            console.log('pulling ' + repo.full_name);
-            await git.pull(path);
-        } else {
-            console.log('cloning ' + repo.full_name);
-            await git.clone(repo.clone_url, path);
-        }
+            const path = expandHome(`~/tmp/backups/${repo.full_name}`);
+
+            if (await exists(path)) {
+                console.log('pulling ' + repo.full_name);
+                await git.pull(path);
+            } else {
+                console.log('cloning ' + repo.full_name);
+                await git.clone(repo.clone_url, path);
+            }
+        });
     });
 
     console.log('done');
