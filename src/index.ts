@@ -1,4 +1,5 @@
 import * as v from 'validtyped';
+import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as request from './utils/request';
 import * as git from './services/git';
@@ -28,11 +29,14 @@ schedule(async () => {
     const configData = await config.blockUntilLoaded();
     const auth = { Authorization: `token ${configData.auth_token}` };
 
-    const repos = await request.get('https://api.github.com/user/repos?per_page=200', v.array(repoSchema), auth);
+    const repos = await request.get('https://api.github.com/user/repos?per_page=500', v.array(repoSchema), auth);
 
     await promise.map(repos, async (repo) => {
         attempt(async () => {
             if (!repo.permissions.pull) return;
+
+            const blacklisted = _.some(configData.blacklist_keywords.map(keyword => repo.full_name.includes(keyword)));
+            if (blacklisted) return;
 
             const path = expandHome(`${configData.backup_dir}/${repo.full_name}`);
 
