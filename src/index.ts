@@ -28,7 +28,7 @@ schedule(async () => {
     const configData = await config.blockUntilLoaded();
     const auth = { Authorization: `token ${configData.auth_token}` };
 
-    const repos = await request.get('https://api.github.com/user/repos?per_page=500', v.array(repoSchema), auth);
+    const repos = await request.get('https://api.github.com/user/repos?per_page=200', v.array(repoSchema), auth);
 
     await promise.map(repos, async (repo) => {
         if (!repo.permissions.pull) return;
