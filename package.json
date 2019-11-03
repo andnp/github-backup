@@ -1,0 +1,38 @@
+{
+  "name": "github-backup",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "lint": "tslint --config tslint.json --project . --format stylish",
+    "tsc": "tsc",
+    "start": "npm run -s build; NODE_PATH=dist/src node --max-old-space-size=8192 dist/scripts/test.js",
+    "watch": "tsc --watch"
+  },
+  "author": "Andy Patterson",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run -s lint"
+    }
+  },
+  "devDependencies": {
+    "husky": "^3.0.0",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.9.1",
+    "typescript": "~3.6.0"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.108",
+    "@types/node": "^12.0.0",
+    "@types/node-fetch": "^2.3.7",
+    "lodash": "^4.17.10",
+    "maybetyped": "^1.5.5",
+    "node-fetch": "^2.6.0",
+    "simplytyped": "^3.0.0",
+    "utilities-ts": "git+https://github.com/andnp/utilities-ts.git",
+    "validtyped": "^2.2.0"
+  }
+}
