@@ -43,6 +43,8 @@ schedule(async () => {
                 console.log('cloning ' + repo.full_name);
                 await git.clone(repo.clone_url, path);
             }
+
+            console.log('finished ' + repo.full_name);
         });
     });
 
