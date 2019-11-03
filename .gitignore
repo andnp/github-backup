@@ -3,4 +3,4 @@ dist/
 .vscode/
 .tmp/
 .test/
-login.json
+config.json
